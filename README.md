@@ -9,7 +9,7 @@ of the license agreement published in
 github.com/andreyklots/SuperQuantPackageV2
 or in other repository created by author(s) of this code.
 
-  Please look at QuickDemo.pdf to get overall impression.
+  Please look at QuickDemo.pdf (https://github.com/andreyklots/SuperQuantPackage/blob/master/QuickDemo.pdf) to get overall impression.
 
   Please contact Andrey R Klots (andreyklots@gmail.com)
 if you have questions or comments.
@@ -34,7 +34,8 @@ For its operation the software requires only two modules:
 Detailed theoretical considerations behind the code are
 Presented in
 
-               Theory.pdf
+               Theory.pdf 
+               (https://github.com/andreyklots/SuperQuantPackageV2/blob/main/Theory.pdf)
 
 The main idea of the algorithm is:
 
@@ -142,7 +143,7 @@ One can find following files in the folder:
 4.   Documentation_MicrowaveUnits.txt
        Documentation for MicrowaveUnits.py
 
-5.   Template_for_SimpleCircuitCalculator.py
+5.   Template_for_Circuit_Calculator.py
        This is a template code that calculates a spectrum for a simple
        superconducting circuit. The template consists of two parts:
        (I)   Part that is meant to be modified by user:
@@ -165,18 +166,8 @@ One can find following files in the folder:
                 corresponding set of t-dependent charge/flux biases
                 computes the Hamiltonian, diagonalizes the Hamiltonian and
                 records the set of all eigenenergies.
-           
-6.   Files named "Template1*.py", "Template2*.py", "Template3*.py",...
-         Less user-friendly templates that show in greater detail,
-         step by step how to use SuperQuantModel module and class
-         "EasyModel" in order to solve eigenvalue problems for different
-         circuits. These templates allow to better understand the workings
-         of Template_for_SimpleCircuitCalculator.py.
-       In particular, file named "Template0_Transmon_Cavity_Hamiltonian.py"
-         does not perform calculation of eigenstates, unlike other templates.
-         Instead it in detail describes a Hamiltonian written in transformed
-         system of coordinates. This is a good example to study in the
-         beginning.
+       More templates can be found at https://github.com/andreyklots/SuperQuantPackage
+             
 
 
  ---------------------------------------
