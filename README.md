@@ -35,7 +35,7 @@ Detailed theoretical considerations behind the code are
 Presented in
 
                Theory.pdf 
-               (https://github.com/andreyklots/SuperQuantPackageV2/blob/main/Theory.pdf)
+(https://github.com/andreyklots/SuperQuantPackageV2/blob/main/Theory.pdf)
 
 The main idea of the algorithm is:
 
