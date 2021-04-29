@@ -1,0 +1,13 @@
+LOG OF CHANGES AND UPDATES
+
+Apr. 29, 2021: Corrected error in "sparce" eigenvector
+               diagonalization method in SuperQuantModel
+
+Apr. 29, 2021: Added a template "Template_for_Circuit_Calculator_scipy.py"
+               similar to "Template_for_Circuit_Calculator.py".
+               However, the new template uses diagonalization method from
+               scipy.sparse library which allows to calculate only a set 
+               number of lowest eigenstates.
+               The older template "Template_for_Circuit_Calculator.py"
+               uses the diagonalization method from the numpy library
+               which calculates all the eigenvalues, but slower.
