@@ -73,6 +73,21 @@ import MicrowaveUnits as ut
 SMALL = 1E-4
 
 
+"""
+ ___________________
+|      N O T E      |
+|___________________|
+| THIS TEMPLATE	 USES
+| numpy MODULE FOR SOLVING
+| THE EIGENVALUE PROBLEM
+| THIS METHOD IS SIMPLE BUT
+| NOT VERY EFFICINT.
+| OTHER TEMPLATE(S) USE(S)
+| MORE EFFICIENT METHODS
+|___________________ 
+"""
+
+
 " ========================== "
 "|| D E S C R I P T I O N  ||"
 "||          O F           ||"
