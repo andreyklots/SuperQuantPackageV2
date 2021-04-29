@@ -190,6 +190,7 @@ def eigsort(A, METHOD = None):
         NofEigs = int( METHOD[ 6:len(METHOD) ] )
         E, u = spLA.eigs(A, k = NofEigs, which='SM')
         #sort eigenvalues
+        idx = np.argsort(E.real)
         E = E[idx]
         u = u[:,idx]                          
         return [np.matrix(E).T, np.matrix(u)]
