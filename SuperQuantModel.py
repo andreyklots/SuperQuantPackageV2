@@ -66,33 +66,12 @@ Are available at github.com/andreyklots/SuperQuantPackage.
 
 """
 
+import numpy as np
+from numpy import linalg as LA
 
-###########################
-#  Import needed modules  #
-###########################
-
-import numpy as np                    
-
-from numpy import linalg as LA        
-
-try:
-    import scipy as sp
-except:
-    print("\n[WARNING]: Failed to import scipy\n")
-
-try:
-    from scipy.sparse import linalg as spLA
-except:
-    print("\n[WARNING]: Failed to import sparse.linalg from scipy\n")
-
-try:
-    from scipy import sparse as spsp
-except:
-    print("\n[WARNING]: Failed to import sparse from scipy\n")
-
-###########################
-
-
+import scipy as sp
+from scipy.sparse import linalg as spLA
+from scipy import sparse as spsp
 
 
 LOGO = """ 
