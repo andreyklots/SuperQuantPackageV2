@@ -201,22 +201,6 @@ def print_text_in_line(Text, color=None):
             print(Text)   # if everything fails, try simplest output
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """                                                        """ 
@@ -228,7 +212,6 @@ def print_text_in_line(Text, color=None):
 """                                                        """ 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 class CircuitParameters:
     # show properties of the class
     def __repr__(self):
@@ -250,24 +233,6 @@ class CircuitParameters:
     Q = np.matrix([None])
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """                                                        """ 
@@ -279,16 +244,13 @@ class CircuitParameters:
 """                                                        """ 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-
 class ModelCalculator:
-    
     # show properties of the class
     def __repr__(self):
         return str(dirv(self))
-    
 
-    SMALL = 1E-4
+      SMALL = 1E-4
+    
     
     ##############################################
     #                                            #
@@ -297,11 +259,10 @@ class ModelCalculator:
     #   Class defining properties of a circuit   #
     #                                            #
     ##############################################
-    
-
     # create a property in SuperCondModel
     Circuit = CircuitParameters()
 
+    
     ##############################################
     #                                            #
     #             M A T R I C E S                #
@@ -309,7 +270,6 @@ class ModelCalculator:
     #   Class and functions defining matrices    #
     #                                            #
     ##############################################
-
     class __Matrices:
         # show properties of the class
         def __repr__(self):
@@ -341,7 +301,7 @@ class ModelCalculator:
     # create a property in SuperCondModel
     Matrices = __Matrices()
     
-   # names of functions below are self-evident: calculate different matrices
+    # names of functions below are self-evident: calculate different matrices
     def calc_U_omega_eigenvalues(self):
         Mat = self.Circuit.Inv_sqrt_C.H * self.Circuit.G.T \
               * self.Circuit.Inv_L \
@@ -390,11 +350,11 @@ class ModelCalculator:
                     self.Matrices.m_cyc, self.Matrices.U,\
                     self.Circuit.Inv_sqrt_C)
 
-
     # returns transform 1 matrix -- U^T*C^(1/2) -- transforms original coor
     # dinates to new
     def getTransform1Matrix(self):
         return self.Matrices.U.T*self.Circuit.Inv_sqrt_C.I
+    
     # returns transform 2 matrix. Acts on original coordinates.
     def getTransform2Matrix(self):
         m_cyc = self.Matrices.m_cyc
@@ -402,6 +362,7 @@ class ModelCalculator:
         Mat = np.matrix(np.identity(N_cyc+self.Matrices.N_osc))
         Mat[0:N_cyc,0:N_cyc] = m_cyc
         return Mat * self.Matrices.U.T * self.Circuit.Inv_sqrt_C.I
+
     # returns transform 3 matrix
     def getTransform3Matrix(self):
         m_cyc = self.Matrices.m_cyc
@@ -411,6 +372,7 @@ class ModelCalculator:
                     np.sqrt(np.array(self.Matrices.omega_eigenvalues.T)[0]) ))
         Mat[0:N_cyc,0:N_cyc] = m_cyc
         return Mat * self.Matrices.U.T * self.Circuit.Inv_sqrt_C.I
+
     # returns matrices for transformed (3) Hamiltonian: c^-1 and M^III
     def getHamiltonianParameters3(self):
         m_cyc = self.Matrices.m_cyc
@@ -424,6 +386,7 @@ class ModelCalculator:
         M_3 = np.hstack([Z_cyc, M_osc3])
         return (InvCyclicCapacitanceMatrix,Sqrt_omega[N_cyc:N_cyc+N_osc], M_3)
 
+      
     ######################################################
     #                                                    #
     #                  O P E R A T O R S                 #
@@ -431,8 +394,6 @@ class ModelCalculator:
     #   Class and functions defining quantum operators   #
     #                                                    #
     ######################################################
-
-    
     class __Operators:
         # show properties of the class
         def __repr__(self):
@@ -463,6 +424,7 @@ class ModelCalculator:
                     self.Matrices.Z_cyc.round().astype(int),\
                     self.Matrices.M_osc, self.Matrices.omega_eigenvalues,\
                     DISPLAY_PROGRESS)
+    
     def obtainHamiltonian(self, DISPLAY_PROGRESS = True):
         self.Operators.Hamiltonian \
             = self.__obtainHamiltonian(
@@ -471,6 +433,7 @@ class ModelCalculator:
                     self.Circuit.E_jos, self.Operators.I_hat,\
                     self.Operators.N_hat, self.Operators.V_hat,\
                     self.Matrices.F, self.Matrices.K,   DISPLAY_PROGRESS)
+
     # calculate total number of quantum states
     def getTotal_N_of_states(self):
         # this will be total number of states 
@@ -490,8 +453,7 @@ class ModelCalculator:
 #\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\#
 #\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\#
 #\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\#
-
-          
+      
     ######################################################
     #                                                    #
     #                  F U N C T I O N S                 #
@@ -500,8 +462,6 @@ class ModelCalculator:
     #                                                    #
     ######################################################
     
-
-
 # ______________________________________________________________#    
 #!  FUNCTION TO FIND LARGEST INVERTIBLE SUBMATRIX OF A MATRIX  !#
 #!_____________________________________________________________!#
@@ -536,7 +496,6 @@ class ModelCalculator:
         
         # initial max invertible submatrix
         a = np.matrix([])
-
 
         # sort rows of A1 from largest absolute value of row-vector to lowest
         # so that norm of invertible submatrix is as large as possible
@@ -594,17 +553,13 @@ class ModelCalculator:
         # resort a in such a way that rows in a appear in the same order as
         #  they appear in A
         a = a[idx_for_a_inversion]
-        
-        
+                
         if NeedTranspose:
             # if needed to transpose original matrix then transpose the res
             # ulting one
             a=a.T
         return a
-
-
-
-
+      
 # ___________________________________#    
 #!  CALCULATE N_cyc, N_osc, N_tot   !#
 #!__________________________________!#
@@ -621,10 +576,6 @@ class ModelCalculator:
         # get N_osc
         N_osc = N_tot - N_cyc
         return [N_cyc, N_osc]
-    
-    
-    
-
     
 # _________________________________________________________#    
 #!   FUNCTION TO GET TRANSFORMED FLUX AND CHARGE BIASES   !#
@@ -660,7 +611,7 @@ class ModelCalculator:
 
         return [F, K]    
 
-
+      
 # ________________________________________#    
 #!   FUNCTION TO GET QUANTUM OPERATORS   !#
 #!_______________________________________!#
@@ -681,8 +632,7 @@ class ModelCalculator:
         # ist of V-matrices $V^{(J,j)}$. J -- first index. j -- second inde
         # x
         V = [[0 for _i in range(N_tot)] for _j in range(np.size(M_osc[:,0]))]
-
-                                                                    
+                                                                  
                                                                     
     #  NOTE: here for simplicity we omit "hats" so instead of N_hat,
     #        V_hat we write N, V,...
@@ -763,7 +713,7 @@ class ModelCalculator:
                 # add the calculated V-matrix to the list
                 V[n_jos][n_coord] = currentV
 
-        # return obtained matrices
+        # return obtained Identity, number and V-matrices
         return [I, N, V]
     
     
@@ -806,9 +756,7 @@ class ModelCalculator:
                                    + "/" +str(N_cyc+N_osc) + "."
                 print_text_in_line("\r"+_Progress_String, color=31)
     
-
-
-
+    
         # counts index of the N-operator
         current_N_index = -1
         # scan over N-operators
@@ -875,89 +823,9 @@ class ModelCalculator:
        
         return Hamilt_cyc + Hamilt_osc - Hamilt_Jos_exp
 
+ 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
 
 
 
