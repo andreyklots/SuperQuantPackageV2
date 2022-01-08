@@ -119,15 +119,6 @@ eigh(A, u_initial): A -- LinearOperator,
                     then initial approcimations of eigenvectors
                     are set automatically as a random N x k
                     -array.
-
-It is much better when all Terms have same structure: i.e.
-sizes of Term1_Factor1 is same as Term2_Factor1, same as
-                                  Term3_Factor1, ...
-and
-sizes of Term1_Factor2 is same as Term2_Factor2, same as
-                                  Term3_Factor2, ...
-and ...
-This makes calculations quicker.
 """
 
 
