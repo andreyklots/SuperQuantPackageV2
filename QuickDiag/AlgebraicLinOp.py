@@ -244,9 +244,35 @@ class LinearOperator():
 
 
 def kron(A,B):
+    
     NewMatArray = []
+    
+    # if one operand is a number then just multiply
+    try:
+        if type(A+0.j)==type(1.+1.j):
+            return A*B
+    except: pass
+    try:
+        if type(B+0.j)==type(1.+1.j):
+            return B*A
+    except:  pass
+
+    # also multiply by scalar if one operand
+    # is a 1x1 matrix or array
+    try:
+        if np.shape(A)==(1,1):
+            return A[0,0]*B
+    except: pass
+    try:
+        if np.shape(B)==(1,1):
+            return B[0,0]*A
+    except:  pass
+
+    # if not multiplying by a scalar then
+    # make sure we are dealing with LinearOperators
     A = LinearOperator(A)
     B = LinearOperator(B)
+
     for Aterm in A.MatArray:
         for Bterm in B.MatArray:
             NewMatArray += [ Aterm+Bterm ]
