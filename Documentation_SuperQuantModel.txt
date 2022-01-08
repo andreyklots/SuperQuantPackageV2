@@ -427,6 +427,9 @@ eigsort(A, [METHOD])
                 METHOD=="sparse999" -- same as METHOD==None but extract only
                                                  first 999 (or other number)
                                                  of lowest eigenvalues.
+                METHOD=="operator999" -- use to find first 999 eigenstates of
+                                                 a AlgebraicLinOp LinearOperator
+                                                 acting on a large Hilbert space.
       return: D (column-vector of eigenvalues of A sorted
                                 with increasing real part)
               U (column-eigenvectors).] 
@@ -443,7 +446,10 @@ KRONTYPE
     [values: KRONTYPE = "numpy"/"np"          -- use numpy
              KRONTYPE = "scipy"/"sp"/"sparse" -- use scipy.sparse.
                                                  sparse is needed to
-                                                 multiply large matrices. ]
+                                                 multiply large matrices.
+             KRONTYPE = "operator"/"op"       -- use AlgebraicLinOp 
+                                                 module for operators acting
+                                                 on large Hilbert space     ]
 
 
 MDkron(A,B)
