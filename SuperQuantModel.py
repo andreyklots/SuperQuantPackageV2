@@ -173,6 +173,12 @@ def eigsort(A, METHOD = None):
         E = E[idx]
         u = u[:,idx]                          
         return [np.matrix(E).T, np.matrix(u)]
+    if METHOD[0:8] == "operator":
+        # This method is only for hermitian operators 
+        # Number of states to get
+        NofEigs = int( METHOD[ 8:len(METHOD) ] )
+        E, u = ALO.eigh( A, NofEigs )                       
+        return [np.matrix(E).T, np.matrix(u)]
 
 # KRONTYPE -- what module to use to calculate a direct product?
 KRONTYPE = "numpy"
@@ -181,6 +187,8 @@ def MDkron(A,B):
         return np.kron(A,B)
     if KRONTYPE=="scipy" or KRONTYPE=="sp" or KRONTYPE=="sparse":
         return spsp.kron(A,B)
+    if KRONTYPE=="operator" or KRONTYPE=="op":
+        return ALO.kron(A,B)
         
 
 
