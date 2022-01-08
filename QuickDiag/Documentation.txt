@@ -1,0 +1,118 @@
+class LinearOperator:
+    Property:
+        MatArray: Describes the structure of a linear operator.
+                  It is a list of Terms. Each Term is also a
+                  list of Factors. With general format
+                  MatArray = [ [Term1_Factor1, Term1_Factor2, ...],
+                               [Term2_Factor1, Term2_Factor2, ...],
+                               ...
+                             ]
+                  Thus, a n expression A,B,C,D,E,F is described 
+                  by a list [ [A,B], [C,D,E], [F]  ].
+
+    Creation of an object:
+        LinearOperator(Description)
+            Description can be either
+                (1) list: then combination AxB+CxDxE+F of matrices
+                          A,B,C,D,E,F is described by a list
+                                    [ [A,B], [C,D,E], [F]  ]
+                (2) LinearOperator: returns same LinearOperator
+                                    not creating a copy -- only pointer
+                (3) number, array or matrix: creates a Linear Operator
+                                    with MatArray = 
+                                          [[numpy.matrix(Description)]]
+
+    Method:
+        act(Vector): act on a N-dimensional column Vector or ona NxM
+                     -matrix with a LinearOperator. Vector must be a
+                     matrix. Function called as
+                     LinearOperator.act(Vector).
+                     Dimensionality N of a column-vector must be equal
+                     to product of dimensionalities of all matrices in
+                     each Term in LinearOperator.MatArray. Number M of
+                     column-vectors can be any.
+                     The way it acts on a vector is as follows:
+                     Consider how it would act on a vector that is
+                     a direct product of vectors:
+
+                      |a|   |v|   |av|
+                      | | x | | = |aw|
+                      |b|   |w|   |bv|
+                                  |bw|
+
+                     Then linear operator will act on it as
+
+                                  |1  0|  |0 1|          |av|     | aw|
+                LinearOperator([[ |0 -1|, |1 0| ]]).act( |aw| ) = | av|
+                                                         |bv|     |-bw|
+                                                         |bw|     |-bv|
+                     This result is equivalent to
+                     
+                     | aw|   | a|   |w|     |1  0| |a|       |0 1| |v| 
+                     | av| = |  | x | | = ( |    |.| | ) x ( |   |.| | )
+                     |-bw|   |-b|   |v|     |0 -1| |b|       |1 0| |w| 
+                     |-bv|
+
+
+
+    Operators:
+        Following operations can be performed on a LinearOperator:
+                A + B, A - B, -A and a*A.
+                Here A, B are LinearOperator objects and "a" is a 
+                scalar. When we add or subtract linear operators,
+                their MatArray properties are simply concatenated.
+                When we multiply a LinearOperator by a scalar "a"
+                from the left, then the first Factor matrix in
+                each Term is multiplied by a factor "a".
+
+    Representation:
+        The LinearOperator object is represented as a sum of
+        products of [M x N] notations where M and N are
+        dimensions of each matrix.
+
+
+kron(A,B):  makes a Kronecker product of LinearOperator
+            objects A and B. This function goes through
+            Terms in MatArrays of A and B and concatenates
+            Factors in each combination of Terms.
+            Example:
+            consider direct product of operator
+            
+            L  = A x B + C   --> [ [A,B], [C] ] 
+             1
+
+            and operator
+
+            L  = D + E x F   --> [ [D], [E,F] ] 
+             2
+            
+            As a result of a Kroneker product we will get
+            
+            L x L   = (A x B x D) + (A x B x E x F) 
+             1   2  
+                    + (C x D) + (C x E x F)      -->
+
+                    --> [ [A,B,D], [A,B,E,F], [C,D], [C,E,F] ]
+
+
+
+eigh(A, u_initial): A -- LinearOperator,
+                    u_initial - integer or N x k
+                                -matrix
+                    finds lowest k eigenvalues of eigenvectors
+                    of LinearOperator A.
+                    u_initial describes column-vectors that are
+                    first approximations of eigenvectors of A.
+                      If u_initial is a matrix or array then it
+                    must have dimensions of N x k. Here N is
+                    the dimensionality of a vector space on
+                    which A is designed to act and k is the
+                    number of eigenvectors/eigenvalues we want
+                    to find. Thus, each column of u_initial
+                    is a first aproximation of an eigenvector.
+                      If u_initial is an integer of value k,
+                    then initial approcimations of eigenvectors
+                    are set automatically as a random N x k
+                    -array.
+
+
