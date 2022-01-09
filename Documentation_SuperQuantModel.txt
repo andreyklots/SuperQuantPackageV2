@@ -430,6 +430,7 @@ eigsort(A, [METHOD])
                 METHOD=="operator999" -- use to find first 999 eigenstates of
                                                  a AlgebraicLinOp LinearOperator
                                                  acting on a large Hilbert space.
+                                                 This method uses LOBPCG method.
       return: D (column-vector of eigenvalues of A sorted
                                 with increasing real part)
               U (column-eigenvectors).] 
