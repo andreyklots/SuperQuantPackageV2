@@ -349,7 +349,7 @@ def showInitialMsg(EasySQM):
 EasySQM = SQM.EasyModel(SMALL, MyCircuitCode, MyMutualInd)
 
 EasySQM.DISPLAY = True          # display progress messages on screen
-ENFORCE_INT_IN_Z_CYC = True     # Z_cyc matrix will be forced to be integer
+EasySQM.ENFORCE_INT_IN_Z_CYC = True # Z_cyc matrix will be forced to be integer
 
 # Calculate initial circuit parameters
 EasySQM.buildCircuit()
