@@ -257,7 +257,7 @@ class ModelCalculator:
     def __repr__(self):
         return str(dirv(self))
 
-      SMALL = 1E-4
+    SMALL = 1E-4
     
     
     ##############################################
