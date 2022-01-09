@@ -339,12 +339,12 @@ def showInitialMsg(EasySQM):
 """
 EasySQM = SQM.EasyModel(SMALL, MyCircuitCode, MyMutualInd)
 
-EasySQM.DISPLAY = True          # display progress messages on screen
-ENFORCE_INT_IN_Z_CYC = True     # Z_cyc matrix will be forced to be integer
+EasySQM.DISPLAY = True              # display progress messages on screen
+EasySQM.ENFORCE_INT_IN_Z_CYC = True # Z_cyc matrix will be forced to be integer
 
 # Calculate initial circuit parameters
 EasySQM.buildCircuit()
-# At this ponint user can also set user-calculated capacitance
+# At this ponint user can also set u:ser-calculated capacitance
 # and inductance matrices by directly assigning
 # "EasySQM.SQM.CircBuild.Circuit.C" and  "EasySQM.SQM.CircBuild.Circuit.L"
 
