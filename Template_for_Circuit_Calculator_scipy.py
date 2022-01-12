@@ -29,7 +29,7 @@
  |   Please carefully read the comments to understand how to set up a        |
  |   and calculate its eigenstates                                           |
  |___________________________________________________________________________|
- """
+"""
 
 # Import important modules. In fact only modules that are absolutely
 # necessary are SuperQuantModel that does all the work and numpy module
@@ -85,7 +85,7 @@ SMALL = 1E-4
 | energy states
 |___________________ 
 """
-SQM.KRONTYPE = "scipy"  # use scipy library to calculate the
+SQM.KRONTYPE = "operator"  # use scipy library to calculate the
                         # direct products of matrices.
                         # Default value is "numpy"
 
@@ -137,8 +137,44 @@ MyCircuitCode = [\
 #       _|_                      _|_               
 #      |\|/|                    |\|/|              
 #      |/|\|                    |/|\|                
-  [2,1, "J", E_J],         [3,1, "J", E_J], 
-  [2,1, "C", C],           [3,1, "C", C], 
+  [2,4, "J", E_J],         [3,4, "J", E_J], 
+  [2,4, "C", C],           [3,4, "C", C], 
+#        |                        |                
+#        |________________________|
+#                     |   
+#                     | {Term 4}
+#         ____________|____________
+#        |                         |
+#       C                         C
+#       C                         C
+#       C                         C
+#       C                         C
+  [4,5, "L", L],           [4,6, "L", L], 
+#        |                        |                
+#        | {Terminal 5}           | {Terminal 6}                
+#       _|_                      _|_               
+#      |\|/|                    |\|/|              
+#      |/|\|                    |/|\|                
+  [4,7, "J", E_J],         [6,7, "J", E_J], 
+  [4,7, "C", C],           [6,7, "C", C], 
+#        |                        |                
+#        |________________________|
+#                     |
+#                     |  {Term 7}
+#         ____________|____________
+#        |                         |
+#       C                         C
+#       C                         C
+#       C                         C
+#       C                         C
+  [7,8, "L", L],           [7,9, "L", L], 
+#        |                        |                
+#        | {Terminal 2}           | {Terminal 3}                
+#       _|_                      _|_               
+#      |\|/|                    |\|/|              
+#      |/|\|                    |/|\|                
+  [7,1, "J", E_J],         [9,1, "J", E_J], 
+  [7,1, "C", C],           [9,1, "C", C], 
 #        |                        |                
 #        |________________________|
 #                    |                
@@ -163,7 +199,11 @@ MyCircuitCode = [\
 # that we are going to bias with flux biases
 Inductors = { \
                "L1":[0,2],  # inductor connecting nodes 0,2 is now called "L1"
-               "L2":[0,3]
+               "L2":[0,3],
+               "L3":[4,5],
+               "L4":[4,6],
+               "L5":[7,8],
+               "L6":[7,9]
             }
 
 
@@ -202,12 +242,12 @@ MyMutualInd = [ \
 # original ones in the SUMMARY section once the code is executed.
 N_of_states = [\
                  # cyclic coordinates:
-                 10,
+                 5,5,5,
                  # oscillatory coordinates:
-                 5,5
+                 3,3,3,3,3,3
                ]
 
-
+# 6.7844444 hours, 780 iterations for 6 lowest states
 
 " ============================= "
 "||    S E T T I N G    U P   ||"
@@ -220,7 +260,7 @@ N_of_states = [\
 # It is time to set up a numerical experiment
 # First, define variable t. All flux and charge biases 
 # will change as a function of t
-t = np.linspace(0,1, 41);
+t = np.linspace(0,1, 5);
 
 
 # Define t-dependent flux biases for each inductor as
@@ -228,8 +268,13 @@ t = np.linspace(0,1, 41);
 # NOTE: FLUX_BIAS_VALUE can also be constant
 FluxBiases =   { \
                  "L1":  t*ut.Phi_0/2,
-                 "L2": -t*ut.Phi_0/2
-               }
+                 "L2": -t*ut.Phi_0/2,
+                 "L3":  t*ut.Phi_0/2,
+                 "L4": -t*ut.Phi_0/2,
+                 "L5":  t*ut.Phi_0/2,
+                 "L6": -t*ut.Phi_0/2
+ 
+                 }
 
 # Define t-dependent (or constant) charge biases in the same way
 ChargeBiases = { "I1": 0 }
@@ -349,7 +394,7 @@ def showInitialMsg(EasySQM):
 EasySQM = SQM.EasyModel(SMALL, MyCircuitCode, MyMutualInd)
 
 EasySQM.DISPLAY = True          # display progress messages on screen
-EasySQM.ENFORCE_INT_IN_Z_CYC = True # Z_cyc matrix will be forced to be integer
+ENFORCE_INT_IN_Z_CYC = True     # Z_cyc matrix will be forced to be integer
 
 # Calculate initial circuit parameters
 EasySQM.buildCircuit()
@@ -427,10 +472,15 @@ for _t in t:                    # scan over t
     # Generate Hamiltonian of the circuit. Save into 
     #                          EasySQM.ModelCalculator.Operators.Hamiltonian
     EasySQM.setHamiltonian()
-
+    
+    Dim = 1
+    Hamilton = EasySQM.getHamiltonian()
+    for Factor in Hamilton.MatArray[0]:
+        Dim *= np.shape(Factor)[0]
+    Hamilt = SQM.ALO.spLA.LinearOperator((Dim,Dim), matvec=Hamilton.act)
     # Get eigenvalues (D) and col-eigenvectors (V) of the Hamiltonian
     # use "H" option to diagonalize Hamiltonian as Hermitian       
-    D,V = SQM.eigsort(EasySQM.getHamiltonian(),"sparseH"+str(N_States_to_Calc))
+    D,V = SQM.eigsort(Hamilton,"operator"+str(N_States_to_Calc))
    
     # Add the eigenenergies to list EigVals
     EigVals = np.hstack((EigVals,D.real))       
