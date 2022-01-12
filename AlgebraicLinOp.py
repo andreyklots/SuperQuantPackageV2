@@ -325,7 +325,7 @@ def kron(A,B):
 
 def eigh(A, u_initial):
     if np.shape(u_initial) == (): 
-    # if u_initial is a scalar
+    # if u_initial is a scalar, then use scipy.sparse.linalg.eigsh
         # Find dimensionality of the Linear Operator.
         VecDim = 1
         for Factor in A.MatArray[0]:
@@ -335,9 +335,10 @@ def eigh(A, u_initial):
         u0 = np.array(
                        np.random.rand(VecDim, u_initial)
                      )
+        E, u = spLA.eigsh( spLA_A , k=u_initial, which='SA')
     else:
     # if u_initial is an array/matrix then it is our 0th approx.
+    # and use LOBPCG method
         u0 = np.array( u_initial )
-    #E, u = spLA.lobpcg( spLA_A , u0, largest=False, tol=1E-8)
-    E, u = spLA.eigsh( spLA_A , k=u_initial, which='SA')
+        E, u = spLA.lobpcg( spLA_A , u0, largest=False )
     return E, u
