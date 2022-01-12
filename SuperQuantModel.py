@@ -132,7 +132,7 @@ def dirv(Obj):
 
 # Diagonalize matrix A and sort from smaller to larger eigenvalues
 # Can use various methods of diagonalization
-def eigsort(A, METHOD = None):
+def eigsort(A, METHOD = None, u_initial = None):
     if (METHOD==None)or(METHOD=="A")or(METHOD=="a")or(METHOD=="arbitrary"):
         E, u = LA.eig( np.matrix(A) )
         #sort eigenvalues by their real part
@@ -178,7 +178,10 @@ def eigsort(A, METHOD = None):
         # This method is only for hermitian operators 
         # Number of states to get
         NofEigs = int( METHOD[ 8:len(METHOD) ] )
-        E, u = ALO.eigh( A, NofEigs )                       
+        if u_initial == None:
+            E, u = ALO.eigh( A, NofEigs )
+        else:
+            E, u = ALO.eigh( A, u_initial)
         return [np.matrix(E).T, np.matrix(u)]
 
 # KRONTYPE -- what module to use to calculate a direct product?
