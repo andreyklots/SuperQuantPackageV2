@@ -73,6 +73,7 @@ import scipy as sp
 from scipy.sparse import linalg as spLA
 from scipy import sparse as spsp
 
+import AlgebraicLinOp as ALO
 
 LOGO = """ 
 
@@ -800,8 +801,9 @@ class ModelCalculator:
             for n in range(0,N_cyc):
                 # get cyclic part of the Hamiltonian
                 Hamilt_cyc = Hamilt_cyc \
-                           + ( _N[m] - MDkron(K[m],_I) ) \
-                           * m2[m,n] * ( _N[n] - MDkron(K[n],_I) )
+                           + m2[m,n] \
+                           * ( _N[m] - MDkron(K[m],_I) ) \
+                           * ( _N[n] - MDkron(K[n],_I) )
                                 # Get oscillatory part of the Hamiltonian
         Hamilt_osc = 0*_I
         for m in range(N_cyc, N_cyc+N_osc):
@@ -827,7 +829,7 @@ class ModelCalculator:
             Hamilt_Jos_exp = Hamilt_Jos_exp \
                            + MDkron(np.exp(-1j*F[m,0])*E_jos[m],_row_product)
         # get hermitian part of the Hamiltonian
-        Hamilt_Jos_exp = ( Hamilt_Jos_exp + Hamilt_Jos_exp.H )/2.
+        Hamilt_Jos_exp = 0.5*( Hamilt_Jos_exp + Hamilt_Jos_exp.H )
        
         return Hamilt_cyc + Hamilt_osc - Hamilt_Jos_exp
 
