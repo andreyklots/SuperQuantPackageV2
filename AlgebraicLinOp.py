@@ -335,10 +335,10 @@ def eigh(A, u_initial):
         u0 = np.array(
                        np.random.rand(VecDim, u_initial)
                      )
-        E, u = spLA.eigsh( spLA_A , k=u_initial, which='SA')
+        E, u = spLA.eigsh( A , k=u_initial, which='SA')
     else:
     # if u_initial is an array/matrix then it is our 0th approx.
     # and use LOBPCG method
         u0 = np.array( u_initial )
-        E, u = spLA.lobpcg( spLA_A , u0, largest=False )
+        E, u = spLA.lobpcg( A, u0, largest=False )
     return E, u
