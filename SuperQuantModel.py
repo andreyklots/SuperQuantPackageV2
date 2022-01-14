@@ -178,7 +178,7 @@ def eigsort(A, METHOD = None, u_initial = None):
         # This method is only for hermitian operators 
         # Number of states to get
         NofEigs = int( METHOD[ 8:len(METHOD) ] )
-        if u_initial == None:
+        if np.any( u_initial == None ):
             E, u = ALO.eigh( A, NofEigs )
         else:
             E, u = ALO.eigh( A, u_initial)
