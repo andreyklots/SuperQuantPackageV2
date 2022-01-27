@@ -150,7 +150,7 @@ class LinearOperator():
         for Term in self.MatArray:
             NewFactor = []
             for Factor in Term:
-                NewFactor += [ Factor.T ]
+                NewFactor += [ Factor.H ]
             NewMatArray += [ NewFactor ]
         return LinearOperator( NewMatArray )
 
