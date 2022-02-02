@@ -1031,7 +1031,7 @@ class CircuitBuilder:
     # ix C with tolerance equal to SMALL
     def inv_sqrt(self, C, SMALL):
         # diagonalize C
-        D, V = LA.eig(C)
+        D, V = LA.eigh(C)
         # check if matrix is symmetric
         if not np.allclose(C.T, C, atol = SMALL):
             return "ERROR: Matrix is not symmetric"
